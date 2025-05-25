@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Enter Marks</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .edit-container {
+            background: white;
+            padding: 20px 30px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            width: 400px;
+            text-align: center;
+        }
+        h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            text-align: left;
+        }
+        label {
+            font-weight: bold;
+            display: block;
+        }
+        input[type="text"],
+        input[type="number"] {
+            padding: 8px;
+            border: 1px solid #aaa;
+            border-radius: 4px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        input[readonly] {
+            background-color: #e9ecef;
+        }
+        button[type="submit"] {
+            background-color: #007bff;
+            border: none;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+        .back-btn {
+            margin-top: 15px;
+            display: inline-block;
+            padding: 8px 15px;
+            border: 1px solid #007bff;
+            border-radius: 5px;
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .back-btn:hover {
+            background-color: #007bff;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+<div class="edit-container">
+    <h2>Enter Marks</h2>
+    <form th:action="@{${marks.id} == null ? '/marks/add' : '/marks/update'}" th:object="${marks}" method="post">
+      <input type="hidden" th:field="*{id}" /> <!-- This is required -->
+    
+        <input type="hidden" th:field="*{student.id}" />
+
+        <label>Student Name:</label>
+        <input type="text" th:value="${marks.student.name}" readonly />
+
+        <label>Roll Number:</label>
+        <input type="text" th:value="${marks.student.rollNo}" readonly />
+
+        <label>Subject:</label>
+        <input type="text" th:field="*{subject}" required />
+
+        <label>Marks Obtained:</label>
+        <input type="number" th:field="*{marksObtained}" required />
+
+       <div style="display: flex; gap: 10px;">
+        <button type="submit" style="flex: 1; background-color: #007bff; border: none; color: white; padding: 10px; border-radius: 5px; cursor: pointer; font-weight: bold;">
+            Save Marks
+        </button>
+        <button type="button" onclick="history.back()" style="flex: 1; background-color: #000000; border: none; color: white; padding: 10px; border-radius: 5px; cursor: pointer; font-weight: bold;">
+            Back
+        </button>
+        </div>
+        <p th:if="${param.success}" style="color: green;margin: 10px 0;">Marks submitted successfully!</p>
+        <p th:if="${param.updated}" style="color: green;margin: 10px 0;">Marks updated successfully!</p>
+         
+    </form>
+    
+</div>
+</body>
+</html>
